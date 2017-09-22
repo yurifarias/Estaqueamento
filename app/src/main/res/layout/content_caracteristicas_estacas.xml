@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.yurifarias.estaqueamento.activities.CaracteristicasEstacasActivity"
+    tools:showIn="@layout/activity_caracteristicas_estacas">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/diametroEstacas_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Diametro das estacas: " />
+
+        <TextView
+            android:id="@+id/diametroEstacas_text_unidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="m" />
+
+        <EditText
+            android:id="@+id/diametroEstacas_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/diametroEstacas_text_unidade"
+            android:layout_toRightOf="@id/diametroEstacas_text"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/comprimentoEstacas_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Comprimento das estacas: " />
+
+        <TextView
+            android:id="@+id/comprimentoEstacas_text_unidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="m" />
+
+        <EditText
+            android:id="@+id/comprimentoEstacas_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/comprimentoEstacas_text_unidade"
+            android:layout_toRightOf="@id/comprimentoEstacas_text"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fckConcreto_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Fck do concreto: " />
+
+        <TextView
+            android:id="@+id/fckConcreto_text_unidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="MPa" />
+
+        <EditText
+            android:id="@+id/fckConcreto_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/fckConcreto_text_unidade"
+            android:layout_toRightOf="@id/fckConcreto_text"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/caracteristicasEstacas_cancelar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/caracteristicasEstacas_confirmar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/caracteristicasEstacas_cancelar_button"
+            android:text="Confirmar" />
+
+    </RelativeLayout>
+
+</LinearLayout>

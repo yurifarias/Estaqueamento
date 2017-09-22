@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Estaqueamento</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_caracteristicas_estacas">CaracteristicasEstacasActivity</string>
+    <string name="title_activity_esforcos_externos">EsforcosExternosActivity</string>
+    <string name="title_activity_geometria_estaqueamento">GeometriaEstaqueamentoActivity</string>
+    <string name="title_activity_calcular_estaqueamento">CalcularEstaqueamentoActivity</string>
+</resources>

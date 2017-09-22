@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.yurifarias.estaqueamento.activities.GeometriaEstaqueamentoActivity"
+    tools:showIn="@layout/activity_geometria_estaqueamento">
+
+    <RelativeLayout
+        android:id="@+id/numeroEstacas_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/qtdEstacasText_geometriaEstaqueamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/qtdEstacasEditText_geometriaEstaqueamento"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:text="Número de estacas: " />
+
+        <Button
+            android:id="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="OK" />
+
+        <EditText
+            android:id="@+id/qtdEstacasEditText_geometriaEstaqueamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
+            android:layout_toRightOf="@+id/qtdEstacasText_geometriaEstaqueamento" />
+
+        <TextView
+            android:id="@+id/cotaArrasamento_text_geometriaEstaqueamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cotaArrasamento_editText_geometriaEstaqueamento"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/qtdEstacasEditText_geometriaEstaqueamento"
+            android:gravity="center_vertical"
+            android:text="Cota de Arrasamento: " />
+
+        <EditText
+            android:id="@+id/cotaArrasamento_editText_geometriaEstaqueamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/qtdEstacasEditText_geometriaEstaqueamento"
+            android:layout_toLeftOf="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
+            android:layout_toRightOf="@+id/cotaArrasamento_text_geometriaEstaqueamento" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/confirmarGeometriaEstaqueamentoButton"
+            android:layout_alignParentTop="true">
+
+            <LinearLayout
+                android:id="@+id/itemEstacas_geometriaEstaqueamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/confirmarGeometriaEstaqueamentoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Confirmar" />
+
+    </RelativeLayout>
+
+</LinearLayout>

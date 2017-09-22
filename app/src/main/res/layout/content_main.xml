@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.yurifarias.estaqueamento.activities.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/caracteristicasEstacas_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Características das estacas" />
+
+    <Button
+        android:id="@+id/esforcosExternos_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Esforços Externos" />
+
+    <Button
+        android:id="@+id/geometriaEstaqueamento_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Geometria do estaqueamento"/>
+
+    <Button
+        android:id="@+id/calcularEstaqueamento_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calcular" />
+
+</LinearLayout>
