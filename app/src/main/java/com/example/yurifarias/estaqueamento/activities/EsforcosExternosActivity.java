@@ -44,7 +44,5 @@ public class EsforcosExternosActivity extends AppCompatActivity implements View.
                 auxiliar.cancelar(this);
                 break;
         }
-
     }
-
 }

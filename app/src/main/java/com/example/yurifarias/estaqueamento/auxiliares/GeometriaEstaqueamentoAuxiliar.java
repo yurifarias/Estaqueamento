@@ -24,13 +24,16 @@ public class GeometriaEstaqueamentoAuxiliar {
 
     public void checarValores(GeometriaEstaqueamentoActivity activity) {
 
-        if (String.valueOf(MainActivity.qtdEstacas).equals("0")) {
+        if (String.valueOf(MainActivity.qtdEstacas).equals("0") && String.valueOf(MainActivity.posX).equals("0.0")) {
 
             quantidadeEstacasEditText.setText("");
+            posXEditText.setText("");
 
         } else {
 
             quantidadeEstacasEditText.setText(String.valueOf(MainActivity.qtdEstacas));
+            posXEditText.setText(String.valueOf(MainActivity.posX));
+
             criaFormularioEstacas(activity);
 
             try {
@@ -51,11 +54,13 @@ public class GeometriaEstaqueamentoAuxiliar {
 
         try {
             MainActivity.qtdEstacas = Integer.parseInt(quantidadeEstacasEditText.getText().toString());
+            MainActivity.posX = Double.parseDouble(posXEditText.getText().toString());
 
-            confirmarEstacas(activity, MainActivity.qtdEstacas);
+            confirmarEstacas(activity);
 
         } catch (Exception e) {
-            Toast.makeText(activity, "INSIRA O NÚMERO DE ESTACAS DO SEU ESTAQUEAMENTO.", Toast.LENGTH_LONG).show();
+
+            Toast.makeText(activity, "INSIRA TODOS OS DADOS.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -67,7 +72,7 @@ public class GeometriaEstaqueamentoAuxiliar {
             if (MainActivity.qtdEstacas > 0) {
                 for (int i = 0; i < MainActivity.qtdEstacas; i++) {
                     MainActivity.estaqueamento[i] = new Estacas(
-                            Double.parseDouble(posXEditText.getText().toString()),
+                            MainActivity.posX,
                             Double.parseDouble((((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_y)).getText().toString())),
                             Double.parseDouble((((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_z)).getText().toString())),
                             Double.parseDouble((((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.ang_crav)).getText().toString())),
@@ -79,22 +84,16 @@ public class GeometriaEstaqueamentoAuxiliar {
 
         } catch (Exception e) {
 
-            Toast.makeText(activity, "INSIRA TODAS INFORMAÇÕES.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "INSIRA TODAS INFORMAÇÕES PEDIDAS.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void confirmarEstacas(GeometriaEstaqueamentoActivity activity, int qtdEstacas) {
+    protected void confirmarEstacas(GeometriaEstaqueamentoActivity activity) {
 
-        if (qtdEstacas <= 0) {
+        if (MainActivity.qtdEstacas <= 1) {
 
-            Toast.makeText(activity, "INSIRA UMA ESTACA OU MAIS", Toast.LENGTH_SHORT).show();
-        } else if (qtdEstacas == 1) {
+            Toast.makeText(activity, "INSIRA DUAS ESTACA OU MAIS", Toast.LENGTH_SHORT).show();
 
-            // criar um formulário para uma estaca com todos os dados já definidos
-            // e enviar uma mensagem dizendo que não pode editar uma só estaca,
-            // Y = 0, Z = 0, alpha = 0, omega = 0.
-            criaFormularioEstacas(activity);
-            Toast.makeText(activity, "ESTAQUEAMENTO COM UMA ESTACA NÃO PODERÁ SER EDITADA PARA NÃO CRIAR INSTABILIDADES.", Toast.LENGTH_LONG).show();
         } else {
 
             criaFormularioEstacas(activity);

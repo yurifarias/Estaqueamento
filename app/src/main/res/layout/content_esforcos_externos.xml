@@ -34,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fx_unit_text"
-            android:layout_toRightOf="@id/fx_text" />
+            android:layout_toRightOf="@id/fx_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 
@@ -63,7 +64,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fy_unit_text"
-            android:layout_toRightOf="@id/fy_text" />
+            android:layout_toRightOf="@id/fy_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 
@@ -92,7 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fz_unit_text"
-            android:layout_toRightOf="@id/fz_text" />
+            android:layout_toRightOf="@id/fz_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 
@@ -121,7 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fa_unit_text"
-            android:layout_toRightOf="@id/fa_text" />
+            android:layout_toRightOf="@id/fa_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 
@@ -150,7 +154,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fb_unit_text"
-            android:layout_toRightOf="@id/fb_text" />
+            android:layout_toRightOf="@id/fb_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 
@@ -179,7 +184,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/fc_unit_text"
-            android:layout_toRightOf="@id/fc_text" />
+            android:layout_toRightOf="@id/fc_text"
+            android:inputType="numberSigned|numberDecimal" />
 
     </RelativeLayout>
 

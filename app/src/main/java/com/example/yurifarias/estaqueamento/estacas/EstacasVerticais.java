@@ -41,10 +41,12 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
         matrizEsforcosRedTransformados = calcularEsforcosTransformados();
         matrizMovElasticoRedTransformado = calcularMovElasticoTransformado();
 
-        return (matrizComponentesEstacasRedTransformados.transpose()).times(matrizMovElasticoRedTransformado);
+        calcularMovElastico();
+
+        return (getMatrizRigidezEstacas().times(matrizComponentesEstacasRedTransformados.transpose())).times(matrizMovElasticoRedTransformado);
     }
     /* Método chamado para reduzir a matriz das componentes das estacas em caso de degeneração */
-    protected Matrix reduzirMatrizCompontesEstacas() {
+    private Matrix reduzirMatrizCompontesEstacas() {
 
         double[][] matriz = new double[3][MainActivity.estaqueamento.length];
         double[][] componentes = getMatrizComponentesEstacas().getArray();
@@ -60,7 +62,7 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
     }
 
     /* Método chamado para reduzir a matriz de rigidez do estaqueamento em caso de degeneração */
-    protected Matrix reduzirMatrizRigidez() {
+    private Matrix reduzirMatrizRigidez() {
 
         double[][] matrizReduzida = new double[3][3];
 
@@ -80,7 +82,7 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
     }
 
     /* Método chamado para reduzir a matriz de esforços externos em caso de degeneração */
-    protected Matrix montarMatrizEsforcosReduzidos() {
+    private Matrix montarMatrizEsforcosReduzidos() {
 
         double[][] matriz = new double[3][1];
 
@@ -94,11 +96,11 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
     /* Método para achar as coordenadas dos novos eixos coordenados (xo, yo), em relação ao antigo,
     e o ângulo de rotação fi, após a translação e rotação dos antigos eixos coordenados como
     aritifício para solucionar casos de estaqueamento apenas com estacas verticais. */
-    protected void acharNovasCoordenadas() {
+    private void acharNovasCoordenadas() {
 
         double[][] mS = matrizRigidezReduzida.getArray();
 
-        if ((mS[0][0]*(mS[1][1]-mS[2][2]) + Math.pow(mS[0][2],2) + Math.pow(mS[0][1],2)) == 0) {
+        if ((mS[0][0]*(mS[2][2] - mS[1][1]) + Math.pow(mS[0][1],2) - Math.pow(mS[0][2],2)) == 0) {
 
             fi = 0;
 
@@ -107,13 +109,13 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
             fi = (Math.atan((2 * (mS[0][0] * mS[1][2] - mS[0][1] * mS[0][2]) / (mS[0][0] * (mS[2][2] - mS[1][1]) + Math.pow(mS[0][1], 2) - Math.pow(mS[0][2], 2))))) / 2;
         }
 
-        yo = (mS[0][2]*Math.cos(fi) + mS[0][1]*Math.sin(fi))/mS[0][0];
-        zo = (mS[0][2]*Math.sin(fi) - mS[0][1]*Math.cos(fi))/mS[0][0];
+        yo = ( - mS[0][1]*Math.sin(fi) - mS[0][2]*Math.cos(fi))/mS[0][0];
+        zo = ( + mS[0][1]*Math.cos(fi) - mS[0][2]*Math.sin(fi)  )/mS[0][0];
     }
 
     /* Método para criar a matriz de trnasformação [T], ou tensor de transformação [T], referente aos
     casos de estaquemaneto plano em XY ou XZ retornando uma matriz 3 x 3 por apresentar degeneração */
-    protected Matrix montarTensorTransformacao() {
+    private Matrix montarTensorTransformacao() {
 
         double[][] tensorT = new double[3][3];
 
@@ -133,21 +135,21 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
     /* Método para calcular a matriz de componentes de estaca transformados [p'], aplicando o tensor de
     transformação [T], retornando uma matriz 3 x n: [p'] = [T] * [p], por apresentar degeneração,
     onde n é número de estacas */
-    protected Matrix calcularComponentesEstacasTransformados() {
+    private Matrix calcularComponentesEstacasTransformados() {
 
         return tensorTransformacao.times(matrizComponentesEstacasReduzida);
     }
 
     /* Método para calcular a matriz de rigidez transformada [S'], aplicando o tensor de transformação [T],
     retornando uma matriz 3 x 3, por apresentar degeneração: [S'] = [T] * [S] * [T]transposta */
-    protected Matrix calcularRigidezTransformada() {
+    private Matrix calcularRigidezTransformada() {
 
         return tensorTransformacao.times(matrizRigidezReduzida.times(tensorTransformacao.transpose()));
     }
 
     /* Método para calcular a matriz de esforços transformados [F'], aplicando o tensor de transformação [T],
     retornando uma matraiz 3 x 1, por apresentar degeneração: [F'] = [T] * [F] */
-    protected Matrix calcularEsforcosTransformados() {
+    private Matrix calcularEsforcosTransformados() {
 
         return tensorTransformacao.times(matrizEsforcosExternos);
     }
@@ -155,7 +157,7 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
     /* Método para calcular a matriz do movimento elástico transformado do bloco [v'], após
     a transformação da matriz de rigidez [S'] e da matriz do esforços externos [F'],
     retornando uma matriz 3 x 1, por apresentar degeneração: [v'] = [S' ^ -1] * [F'] */
-    protected Matrix calcularMovElasticoTransformado() {
+    private Matrix calcularMovElasticoTransformado() {
 
         double[][] matriz = new double[3][1];
 
@@ -188,7 +190,21 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
         return new Matrix(matriz);
     }
 
-    public Matrix getMatrizComponentesEstacasReduzido() {
+    private void calcularMovElastico() {
+
+        double[] matriz = new double[6];
+
+        matriz[0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
+        matriz[1] = 0;
+        matriz[2] = 0;
+        matriz[3] = 0;
+        matriz[4] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];
+        matriz[5] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
+
+        MainActivity.movElastico = matriz;
+    }
+
+    public Matrix getMatrizComponentesEstacasReduzida() {
         return matrizComponentesEstacasReduzida;
     }
 

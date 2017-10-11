@@ -1,7 +1,12 @@
 package com.example.yurifarias.estaqueamento.auxiliares;
 
+import android.app.Dialog;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.yurifarias.estaqueamento.R;
 import com.example.yurifarias.estaqueamento.activities.CalcularEstaqueamentoActivity;
 import com.example.yurifarias.estaqueamento.activities.MainActivity;
 import com.example.yurifarias.estaqueamento.estacas.Estacas;
@@ -39,6 +44,7 @@ public class CalcularEstaqueamentoAuxiliar {
     private String estacaSimetricaEIII;
     private String estacaSimetricaEIV;
 
+    private Matrix matrizRigidezEstacas;
     private Matrix matrizComponentesEstacas;
     private Matrix matrizRigidez;
 
@@ -46,6 +52,7 @@ public class CalcularEstaqueamentoAuxiliar {
 
     public CalcularEstaqueamentoAuxiliar() {
 
+        matrizRigidezEstacas = montarMatrizRigidezEstacas();
         matrizComponentesEstacas = montaMatrizComponentesEstacas();
         matrizRigidez = calcularMatrizRigidez();
 
@@ -106,11 +113,78 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
+    public void mostrarReacoesNormais(CalcularEstaqueamentoActivity activity) {
+
+        View dialog = activity.getLayoutInflater().inflate(R.layout.dialog_resultados, null);
+        final Dialog reacoesNormaisDialog = new Dialog(activity);
+        reacoesNormaisDialog.setContentView(dialog);
+
+        final ListView listView = dialog.findViewById(R.id.lv_dialog_resultado);
+        final String[] reacoesNormais = new String[MainActivity.qtdEstacas];
+
+        double[][] normais = MainActivity.reacoesNormais.getArray();
+
+        for (int i = 0; i < MainActivity.qtdEstacas; i++) {
+            reacoesNormais[i] = "Estaca " + (1 + i) + ": " + normais[i][0] + " N";
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, reacoesNormais);
+        listView.setAdapter(adapter);
+
+        reacoesNormaisDialog.show();
+    }
+
+    public void mostrarMovimentoElastico(CalcularEstaqueamentoActivity activity) {
+
+        View dialog = activity.getLayoutInflater().inflate(R.layout.dialog_resultados, null);
+        final Dialog movimentoElasticoDialog = new Dialog(activity);
+        movimentoElasticoDialog.setContentView(dialog);
+
+        final ListView listView = dialog.findViewById(R.id.lv_dialog_resultado);
+        final String[] movElastico = new String[6];
+
+        movElastico[0] = "Vx: " + (MainActivity.movElastico[0] * 1000) + " mm.";
+        movElastico[1] = "Vy: " + (MainActivity.movElastico[1] * 1000) + " mm.";
+        movElastico[2] = "Vz: " + (MainActivity.movElastico[2] * 1000) + " mm.";
+        movElastico[3] = "Va: " + (MainActivity.movElastico[3]) + " rad.";
+        movElastico[4] = "Vb: " + (MainActivity.movElastico[4]) + " rad.";
+        movElastico[5] = "Vc: " + (MainActivity.movElastico[5]) + " rad.";
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, movElastico);
+        listView.setAdapter(adapter);
+
+        movimentoElasticoDialog.show();
+    }
+
+    private Matrix montarMatrizRigidezEstacas() {
+
+        double[][] matriz = new double[MainActivity.qtdEstacas][MainActivity.qtdEstacas];
+
+        double rigidezEstaca = (MainActivity.modElasticidade * Math.PI * MainActivity.diametroEstacas) / (4 * MainActivity.comprimentoEstacas);
+
+        for (int i = 0; i < MainActivity.qtdEstacas; i++) {
+
+            for (int j = 0; j < MainActivity.qtdEstacas; j++) {
+
+                if (i == j) {
+
+                    matriz[i][j] = rigidezEstaca;
+
+                } else {
+
+                    matriz[i][j] = 0;
+                }
+            }
+        }
+
+         return new Matrix(matriz);
+    }
+
     /* Método para calcular as componentes vetoriais de cada estaca i, retornando
     a matriz P (6 x n) com as respectivas componentes ordenadas pelo índice i, sendo:
     i o índice da estaca;
     n o número de estacas. */
-    protected Matrix montaMatrizComponentesEstacas() {
+    private Matrix montaMatrizComponentesEstacas() {
 
         double[][] matrizP = new double[6][MainActivity.estaqueamento.length];
 
@@ -143,12 +217,12 @@ public class CalcularEstaqueamentoAuxiliar {
 
     /* Método para a montagem da matriz de rigidez geral S pela multiplicação
     da matriz P por sua transposta, retornando a matriz S (6 x 6). */
-    protected Matrix calcularMatrizRigidez() {
+    private Matrix calcularMatrizRigidez() {
 
-        return matrizComponentesEstacas.times(matrizComponentesEstacas.transpose());
+        return (matrizComponentesEstacas.times(matrizRigidezEstacas)).times(matrizComponentesEstacas.transpose());
     }
 
-    protected char definirCaso() {
+    private char definirCaso() {
 
         testeQuadrantes();
 
@@ -180,12 +254,12 @@ public class CalcularEstaqueamentoAuxiliar {
 
             return 'A';
 
-        } /* Estaqueamento plano no plano XY */
+        } /* Estaqueamento plano em XY */
         else if (testePlanoXY()) {
 
             return 'B';
 
-        } /* Estaqueamento plano no plano XZ */
+        } /* Estaqueamento plano em XZ */
         else if (testePlanoXZ()) {
 
             return 'C';
@@ -222,7 +296,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected void testeQuadrantes() {
+    private void testeQuadrantes() {
 
         for (int i = 0; i < MainActivity.qtdEstacas; i++) {
 
@@ -282,7 +356,7 @@ public class CalcularEstaqueamentoAuxiliar {
     }
 
     /* Método para testar se todas as estacas estão contidas no plano XY. */
-    protected boolean testePlanoXY() {
+    private boolean testePlanoXY() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -317,7 +391,7 @@ public class CalcularEstaqueamentoAuxiliar {
     }
 
     /* Método para testar se todas as estacas estão contidas no plano XZ. */
-    protected boolean testePlanoXZ() {
+    private boolean testePlanoXZ() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -352,7 +426,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXY1() {
+    private boolean testeSimetriaXY1() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -385,7 +459,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXY2() {
+    private boolean testeSimetriaXY2() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -416,7 +490,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXY3() {
+    private boolean testeSimetriaXY3() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -435,10 +509,10 @@ public class CalcularEstaqueamentoAuxiliar {
             } else if (eEIV.contains(estacai)) {
                 estacaSimetricaEIII = yi + ", " + (-zi) + ", " + ai + ", " + (360 - wi);
 
-            } else if (eEI.contains(estacai) && (ai == 0 || (ai != 0 && wi == 0))) {
+            } else if (eEI.contains(estacai) && (ai == 0 || wi == 0)) {
                 estacaSimetricaEI = estacai;
 
-            } else if (eEII.contains(estacai) && (ai == 0 || ai != 0 && wi == 180)) {
+            } else if (eEII.contains(estacai) && (ai == 0 || wi == 180)) {
                 estacaSimetricaEII = estacai;
 
             }
@@ -457,7 +531,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXY4() {
+    private boolean testeSimetriaXY4() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -484,7 +558,7 @@ public class CalcularEstaqueamentoAuxiliar {
         } return false;
     }
 
-    protected boolean testeSimetriaXZ1() {
+    private boolean testeSimetriaXZ1() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -517,7 +591,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXZ2() {
+    private boolean testeSimetriaXZ2() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -548,7 +622,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXZ3() {
+    private boolean testeSimetriaXZ3() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -589,7 +663,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected boolean testeSimetriaXZ4() {
+    private boolean testeSimetriaXZ4() {
 
         for (int i = 0; i < MainActivity.estaqueamento.length; i++) {
 
@@ -616,7 +690,7 @@ public class CalcularEstaqueamentoAuxiliar {
         } return false;
     }
 
-    protected double cosAi(double ai) {
+    private double cosAi(double ai) {
 
         double cosAi = Math.cos(Math.toRadians(ai));
 
@@ -630,7 +704,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected double senAi(double ai) {
+    private double senAi(double ai) {
 
         double senAi = Math.sin(Math.toRadians(ai));
 
@@ -644,7 +718,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected double cosWi(double wi) {
+    private double cosWi(double wi) {
 
         double cosWi;
 
@@ -672,7 +746,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected double senWi(double wi) {
+    private double senWi(double wi) {
 
         double senWi;
 
@@ -700,7 +774,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected double senAicosWi (double ai, double wi) {
+    private double senAicosWi (double ai, double wi) {
 
         double senAicosWi = senAi(ai)*cosWi(wi);
 
@@ -714,7 +788,7 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    protected double senAisenWi (double ai, double wi) {
+    private double senAisenWi (double ai, double wi) {
 
         double senAisenWi = senAi(ai)*senWi(wi);
 
@@ -728,11 +802,15 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
-    public Matrix getMatrizComponentesEstacas() {
+    protected Matrix getMatrizRigidezEstacas() {
+        return matrizRigidezEstacas;
+    }
+
+    protected Matrix getMatrizComponentesEstacas() {
         return matrizComponentesEstacas;
     }
 
-    public Matrix getMatrizRigidez() {
+    protected Matrix getMatrizRigidez() {
         return matrizRigidez;
     }
 

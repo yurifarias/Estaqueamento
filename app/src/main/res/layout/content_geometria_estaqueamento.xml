@@ -7,12 +7,14 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.yurifarias.estaqueamento.activities.GeometriaEstaqueamentoActivity"
-    tools:showIn="@layout/activity_geometria_estaqueamento">
+    tools:showIn="@layout/activity_geometria_estaqueamento"
+    android:padding="8dp">
 
     <RelativeLayout
         android:id="@+id/numeroEstacas_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/qtdEstacasText_geometriaEstaqueamento"
@@ -23,7 +25,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
-            android:text="Número de estacas: " />
+            android:text="Quantidade de estacas: " />
 
         <Button
             android:id="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
@@ -32,14 +34,15 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="OK" />
+            android:text="Continuar" />
 
         <EditText
             android:id="@+id/qtdEstacasEditText_geometriaEstaqueamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
-            android:layout_toRightOf="@+id/qtdEstacasText_geometriaEstaqueamento" />
+            android:layout_toRightOf="@+id/qtdEstacasText_geometriaEstaqueamento"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/cotaArrasamento_text_geometriaEstaqueamento"
@@ -50,7 +53,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/qtdEstacasEditText_geometriaEstaqueamento"
             android:gravity="center_vertical"
-            android:text="Cota de Arrasamento: " />
+            android:text="Cota de arrasamento: " />
 
         <EditText
             android:id="@+id/cotaArrasamento_editText_geometriaEstaqueamento"
@@ -58,19 +61,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/qtdEstacasEditText_geometriaEstaqueamento"
             android:layout_toLeftOf="@+id/confirmarQtdEstacas_geometriaEstaqueamento"
-            android:layout_toRightOf="@+id/cotaArrasamento_text_geometriaEstaqueamento" />
+            android:layout_toRightOf="@+id/cotaArrasamento_text_geometriaEstaqueamento"
+            android:inputType="numberDecimal" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/confirmarGeometriaEstaqueamentoButton"
-            android:layout_alignParentTop="true">
+            android:layout_alignParentTop="true"
+            android:paddingBottom="8dp" >
 
             <LinearLayout
                 android:id="@+id/itemEstacas_geometriaEstaqueamento"

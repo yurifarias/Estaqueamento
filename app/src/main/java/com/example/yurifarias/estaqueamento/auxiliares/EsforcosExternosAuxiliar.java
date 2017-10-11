@@ -34,49 +34,49 @@ public class EsforcosExternosAuxiliar {
         if (String.valueOf(MainActivity.esforcoFx).equals("0.0")) {
             campoEsforcoFx.setText("");
         } else {
-            campoEsforcoFx.setText(String.valueOf(MainActivity.esforcoFx));
+            campoEsforcoFx.setText(String.valueOf(MainActivity.esforcoFx / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFy).equals("0.0")) {
             campoEsforcoFy.setText("");
         } else {
-            campoEsforcoFy.setText(String.valueOf(MainActivity.esforcoFy));
+            campoEsforcoFy.setText(String.valueOf(MainActivity.esforcoFy / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFz).equals("0.0")) {
             campoEsforcoFz.setText("");
         } else {
-            campoEsforcoFz.setText(String.valueOf(MainActivity.esforcoFz));
+            campoEsforcoFz.setText(String.valueOf(MainActivity.esforcoFz / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFa).equals("0.0")) {
             campoEsforcoFa.setText("");
         } else {
-            campoEsforcoFa.setText(String.valueOf(MainActivity.esforcoFa));
+            campoEsforcoFa.setText(String.valueOf(MainActivity.esforcoFa / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFb).equals("0.0")) {
             campoEsforcoFb.setText("");
         } else {
-            campoEsforcoFb.setText(String.valueOf(MainActivity.esforcoFb));
+            campoEsforcoFb.setText(String.valueOf(MainActivity.esforcoFb / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFc).equals("0.0")) {
             campoEsforcoFc.setText("");
         } else {
-            campoEsforcoFc.setText(String.valueOf(MainActivity.esforcoFc));
+            campoEsforcoFc.setText(String.valueOf(MainActivity.esforcoFc / 1000));
         }
     }
 
     public void salvarDados(EsforcosExternosActivity activity) {
 
         try {
-            MainActivity.esforcoFx = Double.parseDouble(campoEsforcoFx.getText().toString());
-            MainActivity.esforcoFy = Double.parseDouble(campoEsforcoFy.getText().toString());
-            MainActivity.esforcoFz = Double.parseDouble(campoEsforcoFz.getText().toString());
-            MainActivity.esforcoFa = Double.parseDouble(campoEsforcoFa.getText().toString());
-            MainActivity.esforcoFb = Double.parseDouble(campoEsforcoFb.getText().toString());
-            MainActivity.esforcoFc = Double.parseDouble(campoEsforcoFc.getText().toString());
+            MainActivity.esforcoFx = 1000 * Double.parseDouble(campoEsforcoFx.getText().toString());
+            MainActivity.esforcoFy = 1000 * Double.parseDouble(campoEsforcoFy.getText().toString());
+            MainActivity.esforcoFz = 1000 * Double.parseDouble(campoEsforcoFz.getText().toString());
+            MainActivity.esforcoFa = 1000 * Double.parseDouble(campoEsforcoFa.getText().toString());
+            MainActivity.esforcoFb = 1000 * Double.parseDouble(campoEsforcoFb.getText().toString());
+            MainActivity.esforcoFc = 1000 * Double.parseDouble(campoEsforcoFc.getText().toString());
 
             Toast.makeText(activity, "ESFORÇOS SALVOS.", Toast.LENGTH_SHORT).show();
 

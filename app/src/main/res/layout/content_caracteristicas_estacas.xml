@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/diametroEstacas_text_unidade"
             android:layout_toRightOf="@id/diametroEstacas_text"
-            android:inputType="numberDecimal|numberSigned" />
+            android:inputType="numberDecimal" />
 
     </RelativeLayout>
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/comprimentoEstacas_text_unidade"
             android:layout_toRightOf="@id/comprimentoEstacas_text"
-            android:inputType="numberDecimal|numberSigned" />
+            android:inputType="numberDecimal" />
 
     </RelativeLayout>
 
@@ -81,21 +81,15 @@
             android:layout_centerVertical="true"
             android:text="Fck do concreto: " />
 
-        <TextView
-            android:id="@+id/fckConcreto_text_unidade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Spinner
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="MPa" />
-
-        <EditText
-            android:id="@+id/fckConcreto_editText"
+            android:id="@+id/fck_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fckConcreto_text_unidade"
-            android:layout_toRightOf="@id/fckConcreto_text"
-            android:inputType="numberDecimal|numberSigned" />
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/fckConcreto_text"
+            android:layout_toRightOf="@+id/fckConcreto_text" />
+
 
     </RelativeLayout>
 

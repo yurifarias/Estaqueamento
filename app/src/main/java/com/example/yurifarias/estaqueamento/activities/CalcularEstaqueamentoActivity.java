@@ -17,8 +17,6 @@ public class CalcularEstaqueamentoActivity extends AppCompatActivity implements 
 
     CalcularEstaqueamentoAuxiliar auxiliar;
 
-    private Matrix matrizComponentesEstacas;
-    private Matrix matrizRigidez;
     private char casoSimetria;
 
     @Override
@@ -32,8 +30,6 @@ public class CalcularEstaqueamentoActivity extends AppCompatActivity implements 
         super.onResume();
 
         auxiliar = new CalcularEstaqueamentoAuxiliar();
-        matrizComponentesEstacas = auxiliar.getMatrizComponentesEstacas();
-        matrizRigidez = auxiliar.getMatrizRigidez();
         casoSimetria = auxiliar.getCasoSimetria();
 
         Button reacoesNormaisButton = (Button) findViewById(R.id.reacoesNormais_button);
@@ -45,33 +41,21 @@ public class CalcularEstaqueamentoActivity extends AppCompatActivity implements 
 
     @Override
     public void onClick(View view) {
+
+        auxiliar = new CalcularEstaqueamentoAuxiliar();
+
+        auxiliar.calcularCaso(casoSimetria, this);
+
         switch (view.getId()) {
             case R.id.reacoesNormais_button:
 
-                auxiliar = new CalcularEstaqueamentoAuxiliar();
-                auxiliar.calcularCaso(casoSimetria, this);
-
-                View dialog = getLayoutInflater().inflate(R.layout.dialog_esforcos_normais, null);
-                final Dialog reacoesNormaisDialog = new Dialog(this);
-                reacoesNormaisDialog.setContentView(dialog);
-
-                final ListView listView = dialog.findViewById(R.id.lv_dialog_estacaReacao);
-                final String[] reacoesNormais = new String[MainActivity.qtdEstacas];
-
-                double[][] normais = MainActivity.reacoesNormais.getArray();
-
-                for (int i = 0; i < MainActivity.qtdEstacas; i++) {
-                    reacoesNormais[i] = "Estaca " + (1 + i) + ": " + normais[i][0];
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reacoesNormais);
-                listView.setAdapter(adapter);
-
-                reacoesNormaisDialog.show();
+                auxiliar.mostrarReacoesNormais(this);
 
                 break;
 
             case R.id.deslocamentosElasticos_button:
+
+                auxiliar.mostrarMovimentoElastico(this);
 
                 break;
         }
