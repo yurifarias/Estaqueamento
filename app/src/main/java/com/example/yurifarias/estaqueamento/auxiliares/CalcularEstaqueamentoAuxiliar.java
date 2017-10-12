@@ -125,7 +125,7 @@ public class CalcularEstaqueamentoAuxiliar {
         double[][] normais = MainActivity.reacoesNormais.getArray();
 
         for (int i = 0; i < MainActivity.qtdEstacas; i++) {
-            reacoesNormais[i] = "Estaca " + (1 + i) + ": " + normais[i][0] + " N";
+            reacoesNormais[i] = "Estaca " + (1 + i) + ": " + arredondarEmUmaCasa(normais[i][0]) + " N";
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, reacoesNormais);
@@ -143,12 +143,12 @@ public class CalcularEstaqueamentoAuxiliar {
         final ListView listView = dialog.findViewById(R.id.lv_dialog_resultado);
         final String[] movElastico = new String[6];
 
-        movElastico[0] = "Vx: " + (MainActivity.movElastico[0] * 1000) + " mm.";
-        movElastico[1] = "Vy: " + (MainActivity.movElastico[1] * 1000) + " mm.";
-        movElastico[2] = "Vz: " + (MainActivity.movElastico[2] * 1000) + " mm.";
-        movElastico[3] = "Va: " + (MainActivity.movElastico[3]) + " rad.";
-        movElastico[4] = "Vb: " + (MainActivity.movElastico[4]) + " rad.";
-        movElastico[5] = "Vc: " + (MainActivity.movElastico[5]) + " rad.";
+        movElastico[0] = "Vx: " + arredondarEmQuatroCasas(MainActivity.movElastico[0] * 1000) + " mm.";
+        movElastico[1] = "Vy: " + arredondarEmQuatroCasas(MainActivity.movElastico[1] * 1000) + " mm.";
+        movElastico[2] = "Vz: " + arredondarEmQuatroCasas(MainActivity.movElastico[2] * 1000) + " mm.";
+        movElastico[3] = "Va: " + arredondarEmQuatroCasas(MainActivity.movElastico[3]) + " rad.";
+        movElastico[4] = "Vb: " + arredondarEmQuatroCasas(MainActivity.movElastico[4]) + " rad.";
+        movElastico[5] = "Vc: " + arredondarEmQuatroCasas(MainActivity.movElastico[5]) + " rad.";
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, movElastico);
         listView.setAdapter(adapter);
@@ -160,7 +160,7 @@ public class CalcularEstaqueamentoAuxiliar {
 
         double[][] matriz = new double[MainActivity.qtdEstacas][MainActivity.qtdEstacas];
 
-        double rigidezEstaca = (MainActivity.modElasticidade * Math.PI * MainActivity.diametroEstacas) / (4 * MainActivity.comprimentoEstacas);
+        double rigidezEstaca = (MainActivity.modElasticidade * Math.PI * Math.pow(MainActivity.diametroEstacas, 2)) / (4 * MainActivity.comprimentoEstacas);
 
         for (int i = 0; i < MainActivity.qtdEstacas; i++) {
 
@@ -800,6 +800,18 @@ public class CalcularEstaqueamentoAuxiliar {
             BigDecimal bd = new BigDecimal(senAisenWi).setScale(6, RoundingMode.HALF_EVEN);
             return bd.doubleValue();
         }
+    }
+
+    private double arredondarEmUmaCasa(double valor) {
+
+        BigDecimal bd = new BigDecimal(valor).setScale(1, RoundingMode.HALF_EVEN);
+        return bd.doubleValue();
+    }
+
+    private double arredondarEmQuatroCasas(double valor) {
+
+        BigDecimal bd = new BigDecimal(valor).setScale(4, RoundingMode.HALF_EVEN);
+        return bd.doubleValue();
     }
 
     protected Matrix getMatrizRigidezEstacas() {
