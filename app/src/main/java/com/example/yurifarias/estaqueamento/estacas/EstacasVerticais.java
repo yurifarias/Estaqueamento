@@ -45,6 +45,7 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
 
         return (getMatrizRigidezEstacas().times(matrizComponentesEstacasRedTransformados.transpose())).times(matrizMovElasticoRedTransformado);
     }
+
     /* Método chamado para reduzir a matriz das componentes das estacas em caso de degeneração */
     private Matrix reduzirMatrizCompontesEstacas() {
 
@@ -192,14 +193,14 @@ public class EstacasVerticais extends CalcularEstaqueamentoAuxiliar {
 
     private void calcularMovElastico() {
 
-        double[] matriz = new double[6];
+        double[][] matriz = new double[6][1];
 
-        matriz[0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
-        matriz[1] = 0;
-        matriz[2] = 0;
-        matriz[3] = 0;
-        matriz[4] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];
-        matriz[5] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
+        matriz[0][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
+        matriz[1][0] = 0;
+        matriz[2][0] = 0;
+        matriz[3][0] = 0;
+        matriz[4][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];
+        matriz[5][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
 
         MainActivity.movElastico = matriz;
     }

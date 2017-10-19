@@ -113,6 +113,90 @@ public class CalcularEstaqueamentoAuxiliar {
         }
     }
 
+    public void checarValidade() {
+
+        switch (getCasoSimetria()) {
+
+            case 'A':
+
+                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fz ou Fa.
+
+                } else if (MainActivity.estaqueamento.length == 2) {
+
+                    if (!testePlanoXY() && !testePlanoXZ()) {
+
+                        //Passar mensagem de que duas estacas são instáveis caso não formem estaqueamento plano em XY ou XZ.
+
+                    } else if (testePlanoXY() && MainActivity.esforcoFc != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fc.
+
+                    } else if(testePlanoXZ() && MainActivity.esforcoFb != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fb.
+
+                    } else {
+
+                        //Realizar o cálculo.
+                    }
+
+                } else if (testeEstacasVerticaisColineares()) {
+
+                    //Passar mensagem de que o estaqueamento é instável porque as estacas são colieares e não é estaqueamento plano.
+
+                } else {
+
+                    //Realizar cálculo.
+                }
+
+                break;
+
+            case 'B':
+        }
+
+
+    }
+
+    private boolean testeEstacasVerticaisColineares() {
+
+        double[] yi = new double[MainActivity.estaqueamento.length];
+        double[] zi = new double[MainActivity.estaqueamento.length];
+        double[] inclinacao = new double[MainActivity.estaqueamento.length - 1];
+        ArrayList<String> inclinacoes = new ArrayList<>();
+
+        int i = 0;
+
+        while (i < MainActivity.estaqueamento.length) {
+
+            Estacas e = MainActivity.estaqueamento[i];
+
+            yi[i] = e.getPosY();
+            zi[i] = e.getPosZ();
+
+            i++;
+        }
+
+        int j = 0;
+
+        while (j < inclinacao.length) {
+
+            inclinacao[j] = (zi[0] - zi[i+1]) / (yi[0] - yi[i+1]);
+
+            if (inclinacao[j] == inclinacao[0]) {
+
+                inclinacoes.add("Sim");
+
+            } else {
+
+                inclinacoes.add("Nao");
+            }
+        }
+
+        return !inclinacoes.contains("Nao");
+    }
+
     public void mostrarReacoesNormais(CalcularEstaqueamentoActivity activity) {
 
         View dialog = activity.getLayoutInflater().inflate(R.layout.dialog_resultados, null);
@@ -143,12 +227,12 @@ public class CalcularEstaqueamentoAuxiliar {
         final ListView listView = dialog.findViewById(R.id.lv_dialog_resultado);
         final String[] movElastico = new String[6];
 
-        movElastico[0] = "Vx: " + arredondarEmQuatroCasas(MainActivity.movElastico[0] * 1000) + " mm.";
-        movElastico[1] = "Vy: " + arredondarEmQuatroCasas(MainActivity.movElastico[1] * 1000) + " mm.";
-        movElastico[2] = "Vz: " + arredondarEmQuatroCasas(MainActivity.movElastico[2] * 1000) + " mm.";
-        movElastico[3] = "Va: " + arredondarEmQuatroCasas(MainActivity.movElastico[3]) + " rad.";
-        movElastico[4] = "Vb: " + arredondarEmQuatroCasas(MainActivity.movElastico[4]) + " rad.";
-        movElastico[5] = "Vc: " + arredondarEmQuatroCasas(MainActivity.movElastico[5]) + " rad.";
+        movElastico[0] = "Vx: " + arredondarEmQuatroCasas(MainActivity.movElastico[0][0] * 1000) + " mm.";
+        movElastico[1] = "Vy: " + arredondarEmQuatroCasas(MainActivity.movElastico[1][0] * 1000) + " mm.";
+        movElastico[2] = "Vz: " + arredondarEmQuatroCasas(MainActivity.movElastico[2][0] * 1000) + " mm.";
+        movElastico[3] = "Va: " + arredondarEmQuatroCasas(MainActivity.movElastico[3][0]) + " rad.";
+        movElastico[4] = "Vb: " + arredondarEmQuatroCasas(MainActivity.movElastico[4][0]) + " rad.";
+        movElastico[5] = "Vc: " + arredondarEmQuatroCasas(MainActivity.movElastico[5][0]) + " rad.";
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, movElastico);
         listView.setAdapter(adapter);
@@ -380,14 +464,7 @@ public class CalcularEstaqueamentoAuxiliar {
             }
         }
 
-        if (!ePlanoXY.contains("false")) {
-
-            return true;
-
-        } else {
-
-            return false;
-        }
+        return !ePlanoXY.contains("false");
     }
 
     /* Método para testar se todas as estacas estão contidas no plano XZ. */
@@ -416,14 +493,7 @@ public class CalcularEstaqueamentoAuxiliar {
             }
         }
 
-        if (!ePlanoXZ.contains("false")) {
-
-            return true;
-
-        } else {
-
-            return false;
-        }
+        return !ePlanoXZ.contains("false");
     }
 
     private boolean testeSimetriaXY1() {

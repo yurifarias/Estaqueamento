@@ -99,36 +99,43 @@ public class CaracteristicasEstacasAuxiliar {
         switch (MainActivity.itemFckConcreto) {
             case 0:
 
+                // 20MPa
                 MainActivity.modElasticidade = 21 * Math.pow(10, 9);
                 break;
 
             case 1:
 
+                // 25MPa
                 MainActivity.modElasticidade = 24 * Math.pow(10, 9);
                 break;
 
             case 2:
 
+                // 30MPa
                 MainActivity.modElasticidade = 27 * Math.pow(10, 9);
                 break;
 
             case 3:
 
+                // 35MPa
                 MainActivity.modElasticidade = 29 * Math.pow(10, 9);
                 break;
 
             case 4:
 
+                // 40MPa
                 MainActivity.modElasticidade = 32 * Math.pow(10, 9);
                 break;
 
             case 5:
 
+                // 45MPa
                 MainActivity.modElasticidade = 34 * Math.pow(10, 9);
                 break;
 
             case 6:
 
+                //50MPa
                 MainActivity.modElasticidade = 37 * Math.pow(10, 9);
                 break;
         }

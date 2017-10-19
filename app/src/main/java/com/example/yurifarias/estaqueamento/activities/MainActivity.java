@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.yurifarias.estaqueamento.auxiliares.CalcularEstaqueamentoAuxiliar;
 import com.example.yurifarias.estaqueamento.estacas.Estacas;
 import com.example.yurifarias.estaqueamento.R;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static View[] viewsEstacas;
 
     public static Matrix reacoesNormais;
-    public static double[] movElastico;
+    public static double[][] movElastico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onClick(View view) {
+
+        CalcularEstaqueamentoAuxiliar auxiliar = new CalcularEstaqueamentoAuxiliar();
 
         switch (view.getId()) {
             case R.id.caracteristicasEstacas_button:
@@ -94,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         || String.valueOf(estaqueamento.length).equals("0") || String.valueOf(estaqueamento.length).equals("null")) {
 
                     Toast.makeText(this, "INSIRA TODOS OS DADOS.", Toast.LENGTH_LONG).show();
+
+                } else if (auxiliar.checarValidade()) {
+
+
 
                 } else {
 
