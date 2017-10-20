@@ -50,6 +50,10 @@ public class CalcularEstaqueamentoAuxiliar {
 
     private char casoSimetria;
 
+    private boolean testeValidade;
+    private String titulo;
+    private String mensagem;
+
     public CalcularEstaqueamentoAuxiliar() {
 
         matrizRigidezEstacas = montarMatrizRigidezEstacas();
@@ -57,6 +61,128 @@ public class CalcularEstaqueamentoAuxiliar {
         matrizRigidez = calcularMatrizRigidez();
 
         casoSimetria = definirCaso();
+    }
+
+    public boolean tentarCalcular() {
+
+        if (String.valueOf(MainActivity.diametroEstacas).equals("0.0") || String.valueOf(MainActivity.diametroEstacas).equals("null")
+                || String.valueOf(MainActivity.comprimentoEstacas).equals("0.0") || String.valueOf(MainActivity.comprimentoEstacas).equals("null")
+                || String.valueOf(MainActivity.itemFckConcreto).equals("0") || String.valueOf(MainActivity.itemFckConcreto).equals("null")
+                || String.valueOf(MainActivity.esforcoFx).equals("null") || String.valueOf(MainActivity.esforcoFy).equals("null")
+                || String.valueOf(MainActivity.esforcoFz).equals("null") || String.valueOf(MainActivity.esforcoFa).equals("null")
+                || String.valueOf(MainActivity.esforcoFb).equals("null") || String.valueOf(MainActivity.esforcoFc).equals("null")
+                || String.valueOf(MainActivity.qtdEstacas).equals("0") || String.valueOf(MainActivity.qtdEstacas).equals("null")
+                || String.valueOf(MainActivity.posX).equals("0.0") || String.valueOf(MainActivity.posX).equals("null")
+                || String.valueOf(MainActivity.estaqueamento.length).equals("0") || String.valueOf(MainActivity.estaqueamento.length).equals("null")) {
+
+            titulo = "ERRO!";
+
+            mensagem = "REVEJA DADOS DE ENTRADA.";
+
+            return false;
+
+        } else
+
+            checarValidade();
+
+            return testeValidade;
+    }
+
+    private void checarValidade() {
+
+        switch (getCasoSimetria()) {
+
+            case 'A':
+
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fz ou Fa.
+                    mensagem = "O estaqueamento não reage aos esforços Fy, Fz, Fa.\nPor favor, reconsidere estes esforços";
+
+                    testeValidade = false;
+
+                } else if (MainActivity.estaqueamento.length == 2) {
+
+                    if (!testePlanoXY() && !testePlanoXZ()) {
+
+                        //Passar mensagem de que duas estacas são instáveis caso não formem estaqueamento plano em XY ou XZ.
+                        mensagem = "Estaqueamento com apenas duas estacas que não estão contidas em um plano é instável.";
+
+                        testeValidade = false;
+
+                    } else if (testePlanoXY() && MainActivity.esforcoFb != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fc.
+                        mensagem = "Esforço Fb neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else if (testePlanoXZ() && MainActivity.esforcoFc != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fb.
+                        mensagem = "Esforço Fc neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar o cálculo.
+                        testeValidade = true;
+                    }
+
+                } else if (testeEstacasVerticaisColineares()) {
+
+                    //Passar mensagem de que o estaqueamento é instável porque as estacas são colieares e não é estaqueamento plano.
+                    mensagem = "Estacas verticais coplanares geram instabilidade.";
+
+                    testeValidade = false;
+
+                } else {
+
+                    //Realizar cálculo.
+                    testeValidade = true;
+                }
+
+                break;
+
+            case 'B':
+
+                testeValidade = false;
+
+            break;
+
+            case 'C':
+
+                testeValidade = false;
+
+            break;
+
+            case 'D':
+
+                testeValidade = false;
+
+            break;
+
+            case 'E':
+
+                testeValidade = false;
+
+            break;
+
+            case 'F':
+
+                testeValidade = false;
+
+            break;
+
+            case 'G':
+
+                testeValidade = false;
+
+            break;
+        }
     }
 
     public void calcularCaso(char caso, CalcularEstaqueamentoActivity activity) {
@@ -111,52 +237,6 @@ public class CalcularEstaqueamentoAuxiliar {
                 Toast.makeText(activity,"Não é possível achar reações.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    public void checarValidade() {
-
-        switch (getCasoSimetria()) {
-
-            case 'A':
-
-                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0) {
-
-                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fz ou Fa.
-
-                } else if (MainActivity.estaqueamento.length == 2) {
-
-                    if (!testePlanoXY() && !testePlanoXZ()) {
-
-                        //Passar mensagem de que duas estacas são instáveis caso não formem estaqueamento plano em XY ou XZ.
-
-                    } else if (testePlanoXY() && MainActivity.esforcoFc != 0) {
-
-                        //Passar mensagem de instabilidade por causa do esforço Fc.
-
-                    } else if(testePlanoXZ() && MainActivity.esforcoFb != 0) {
-
-                        //Passar mensagem de instabilidade por causa do esforço Fb.
-
-                    } else {
-
-                        //Realizar o cálculo.
-                    }
-
-                } else if (testeEstacasVerticaisColineares()) {
-
-                    //Passar mensagem de que o estaqueamento é instável porque as estacas são colieares e não é estaqueamento plano.
-
-                } else {
-
-                    //Realizar cálculo.
-                }
-
-                break;
-
-            case 'B':
-        }
-
-
     }
 
     private boolean testeEstacasVerticaisColineares() {
@@ -898,5 +978,17 @@ public class CalcularEstaqueamentoAuxiliar {
 
     public char getCasoSimetria() {
         return casoSimetria;
+    }
+
+    public boolean isTesteValidade() {
+        return testeValidade;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getMensagem() {
+        return mensagem;
     }
 }

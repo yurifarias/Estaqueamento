@@ -477,29 +477,29 @@ public class SimetriaPorUmPlano extends CalcularEstaqueamentoAuxiliar {
 
     private void calcularMovimentoElastico(char caso) {
 
-        double[] matriz = new double[6];
+        double[][] matriz = new double[6][1];
 
         switch (caso) {
 
             case 'D':
 
-                matriz[0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[0][0];
-                matriz[1] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[1][0];
-                matriz[2] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[0][0];
-                matriz[3] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[1][0];
-                matriz[4] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[2][0];
-                matriz[5] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[2][0];
+                matriz[0][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[0][0];
+                matriz[1][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[1][0];
+                matriz[2][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[0][0];
+                matriz[3][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[1][0];
+                matriz[4][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[2][0];
+                matriz[5][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[2][0];
 
                 break;
 
             case 'E':
 
-                matriz[0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[0][0];
-                matriz[1] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[0][0];
-                matriz[2] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[1][0];
-                matriz[3] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[1][0];
-                matriz[4] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[2][0];
-                matriz[5] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[2][0];
+                matriz[0][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[0][0];
+                matriz[1][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[0][0];
+                matriz[2][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[1][0];
+                matriz[3][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[1][0];
+                matriz[4][0] = (tensorTransformacao1.transpose()).times(matrizMovElasticoSubTransformado1).getArray()[2][0];
+                matriz[5][0] = (tensorTransformacao2.transpose()).times(matrizMovElasticoSubTransformado2).getArray()[2][0];
 
                 break;
         }

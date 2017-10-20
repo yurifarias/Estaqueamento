@@ -39,8 +39,8 @@ public class GeometriaEstaqueamentoAuxiliar {
             try {
 
                 for (int i = 0; i < MainActivity.qtdEstacas; i++) {
-                    ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_y)).setText(String.valueOf(MainActivity.estaqueamento[i].getPosX()));
-                    ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_z)).setText(String.valueOf(MainActivity.estaqueamento[i].getPosY()));
+                    ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_y)).setText(String.valueOf(MainActivity.estaqueamento[i].getPosY()));
+                    ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.pos_z)).setText(String.valueOf(MainActivity.estaqueamento[i].getPosZ()));
                     ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.ang_crav)).setText(String.valueOf(MainActivity.estaqueamento[i].getAngCrav()));
                     ((EditText) MainActivity.viewsEstacas[i].findViewById(R.id.ang_proj)).setText(String.valueOf(MainActivity.estaqueamento[i].getAngProj()));
                 }

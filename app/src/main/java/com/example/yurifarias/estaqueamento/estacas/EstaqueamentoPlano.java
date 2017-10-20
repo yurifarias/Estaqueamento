@@ -284,28 +284,28 @@ public class EstaqueamentoPlano extends CalcularEstaqueamentoAuxiliar {
 
     private void calcularMovElastico(char caso) {
 
-        double[] matriz = new double[6];
+        double[][] matriz = new double[6][1];
 
         switch (caso) {
             case 'B':
 
-                matriz[0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
-                matriz[1] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];
-                matriz[2] = 0;
-                matriz[3] = 0;
-                matriz[4] = 0;
-                matriz[5] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
+                matriz[0][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
+                matriz[1][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];
+                matriz[2][0] = 0;
+                matriz[3][0] = 0;
+                matriz[4][0] = 0;
+                matriz[5][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
 
                 break;
 
             case 'C':
 
-                matriz[0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
-                matriz[1] = 0;
-                matriz[2] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];;
-                matriz[3] = 0;
-                matriz[4] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
-                matriz[5] = 0;
+                matriz[0][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[0][0];
+                matriz[1][0] = 0;
+                matriz[2][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[1][0];;
+                matriz[3][0] = 0;
+                matriz[4][0] = (tensorTransformacao.transpose().times(matrizMovElasticoRedTransformado)).getArray()[2][0];
+                matriz[5][0] = 0;
 
                 break;
         }

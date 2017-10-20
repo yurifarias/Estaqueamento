@@ -2,10 +2,14 @@ package com.example.yurifarias.estaqueamento.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yurifarias.estaqueamento.auxiliares.CalcularEstaqueamentoAuxiliar;
@@ -65,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View view) {
 
-        CalcularEstaqueamentoAuxiliar auxiliar = new CalcularEstaqueamentoAuxiliar();
-
         switch (view.getId()) {
             case R.id.caracteristicasEstacas_button:
                 Intent intentAbrirCaracteristicasEstacas = new Intent(MainActivity.this, CaracteristicasEstacasActivity.class);
@@ -84,28 +86,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.calcularEstaqueamento_button:
+
+                CalcularEstaqueamentoAuxiliar auxiliar = new CalcularEstaqueamentoAuxiliar();
+
                 Intent intentCalcularEstaqueamento = new Intent(MainActivity.this, CalcularEstaqueamentoActivity.class);
 
-                if (String.valueOf(diametroEstacas).equals("0.0") || String.valueOf(diametroEstacas).equals("null")
-                        || String.valueOf(comprimentoEstacas).equals("0.0") || String.valueOf(comprimentoEstacas).equals("null")
-                        || String.valueOf(itemFckConcreto).equals("0") || String.valueOf(itemFckConcreto).equals("null")
-                        || String.valueOf(esforcoFx).equals("null") || String.valueOf(esforcoFy).equals("null")
-                        || String.valueOf(esforcoFz).equals("null") || String.valueOf(esforcoFa).equals("null")
-                        || String.valueOf(esforcoFb).equals("null") || String.valueOf(esforcoFc).equals("null")
-                        || String.valueOf(qtdEstacas).equals("0") || String.valueOf(qtdEstacas).equals("null")
-                        || String.valueOf(posX).equals("0.0") || String.valueOf(posX).equals("null")
-                        || String.valueOf(estaqueamento.length).equals("0") || String.valueOf(estaqueamento.length).equals("null")) {
+                boolean calculo = auxiliar.tentarCalcular();
 
-                    Toast.makeText(this, "INSIRA TODOS OS DADOS.", Toast.LENGTH_LONG).show();
+                final AlertDialog alerta;
 
-                } else if (auxiliar.checarValidade()) {
+                String titulo = auxiliar.getTitulo();
 
+                String mensagem = auxiliar.getMensagem();
 
+                if (calculo) {
+
+                    startActivity(intentCalcularEstaqueamento);
 
                 } else {
 
-                    startActivity(intentCalcularEstaqueamento);
+                    LayoutInflater li = getLayoutInflater();
+
+                    View view1 = li.inflate(R.layout.alerta_dialog, null);
+
+                    TextView tv = view1.findViewById(R.id.mensagem_estaqueamento);
+
+                    tv.setText(mensagem);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle(titulo);
+                    builder.setView(view1);
+                    alerta = builder.create();
+                    alerta.show();
+
+                    view1.findViewById(R.id.mensagem_retornar).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            alerta.dismiss();
+                        }
+                    });
                 }
+
 
                 break;
         }

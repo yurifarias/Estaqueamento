@@ -32,37 +32,37 @@ public class EsforcosExternosAuxiliar {
     public void checarValores() {
 
         if (String.valueOf(MainActivity.esforcoFx).equals("0.0")) {
-            campoEsforcoFx.setText("");
+            campoEsforcoFx.setText("0");
         } else {
             campoEsforcoFx.setText(String.valueOf(MainActivity.esforcoFx / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFy).equals("0.0")) {
-            campoEsforcoFy.setText("");
+            campoEsforcoFy.setText("0");
         } else {
             campoEsforcoFy.setText(String.valueOf(MainActivity.esforcoFy / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFz).equals("0.0")) {
-            campoEsforcoFz.setText("");
+            campoEsforcoFz.setText("0");
         } else {
             campoEsforcoFz.setText(String.valueOf(MainActivity.esforcoFz / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFa).equals("0.0")) {
-            campoEsforcoFa.setText("");
+            campoEsforcoFa.setText("0");
         } else {
             campoEsforcoFa.setText(String.valueOf(MainActivity.esforcoFa / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFb).equals("0.0")) {
-            campoEsforcoFb.setText("");
+            campoEsforcoFb.setText("0");
         } else {
             campoEsforcoFb.setText(String.valueOf(MainActivity.esforcoFb / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFc).equals("0.0")) {
-            campoEsforcoFc.setText("");
+            campoEsforcoFc.setText("0");
         } else {
             campoEsforcoFc.setText(String.valueOf(MainActivity.esforcoFc / 1000));
         }

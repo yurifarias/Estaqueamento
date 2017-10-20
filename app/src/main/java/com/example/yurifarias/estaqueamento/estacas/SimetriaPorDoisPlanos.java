@@ -179,14 +179,14 @@ public class SimetriaPorDoisPlanos extends CalcularEstaqueamentoAuxiliar {
 
     private void calcularMovimentoElastico() {
 
-        double[] matriz = new double[6];
+        double[][] matriz = new double[6][1];
 
-        matriz[0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[0][0];
-        matriz[1] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[1][0];
-        matriz[2] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[2][0];
-        matriz[3] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[3][0];
-        matriz[4] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[4][0];
-        matriz[5] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[5][0];
+        matriz[0][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[0][0];
+        matriz[1][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[1][0];
+        matriz[2][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[2][0];
+        matriz[3][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[3][0];
+        matriz[4][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[4][0];
+        matriz[5][0] = (tensorTransformacao.transpose()).times(matrizMovElasticoTransformado).getArray()[5][0];
 
         MainActivity.movElastico = matriz;
     }
