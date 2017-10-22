@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button calcularEstaqueamentoButton = (Button) findViewById(R.id.calcularEstaqueamento_button);
         calcularEstaqueamentoButton.setOnClickListener(this);
+
+
     }
 
     public void onClick(View view) {
@@ -87,36 +89,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.calcularEstaqueamento_button:
 
-                CalcularEstaqueamentoAuxiliar auxiliar = new CalcularEstaqueamentoAuxiliar();
+                String titulo = "";
+                String mensagem = "";
 
-                Intent intentCalcularEstaqueamento = new Intent(MainActivity.this, CalcularEstaqueamentoActivity.class);
+                LayoutInflater li = getLayoutInflater();
+                View view1 = li.inflate(R.layout.alerta_dialog, null);
+                TextView tv = view1.findViewById(R.id.mensagem_estaqueamento);
 
-                boolean calculo = auxiliar.tentarCalcular();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setView(view1);
 
                 final AlertDialog alerta;
 
-                String titulo = auxiliar.getTitulo();
+                if (String.valueOf(MainActivity.diametroEstacas).equals("0.0") || String.valueOf(MainActivity.diametroEstacas).equals("null")
+                        || String.valueOf(MainActivity.comprimentoEstacas).equals("0.0") || String.valueOf(MainActivity.comprimentoEstacas).equals("null")
+                        || String.valueOf(MainActivity.itemFckConcreto).equals("0") || String.valueOf(MainActivity.itemFckConcreto).equals("null")
+                        || String.valueOf(MainActivity.esforcoFx).equals("null") || String.valueOf(MainActivity.esforcoFy).equals("null")
+                        || String.valueOf(MainActivity.esforcoFz).equals("null") || String.valueOf(MainActivity.esforcoFa).equals("null")
+                        || String.valueOf(MainActivity.esforcoFb).equals("null") || String.valueOf(MainActivity.esforcoFc).equals("null")
+                        || String.valueOf(MainActivity.qtdEstacas).equals("0") || String.valueOf(MainActivity.qtdEstacas).equals("null")
+                        || String.valueOf(MainActivity.posX).equals("0.0") || String.valueOf(MainActivity.posX).equals("null")
+                        || String.valueOf(MainActivity.estaqueamento.length).equals("0") || String.valueOf(MainActivity.estaqueamento.length).equals("null")) {
 
-                String mensagem = auxiliar.getMensagem();
-
-                if (calculo) {
-
-                    startActivity(intentCalcularEstaqueamento);
-
-                } else {
-
-                    LayoutInflater li = getLayoutInflater();
-
-                    View view1 = li.inflate(R.layout.alerta_dialog, null);
-
-                    TextView tv = view1.findViewById(R.id.mensagem_estaqueamento);
+                    titulo = "ERRO!";
+                    mensagem = "REVEJA DADOS DE ENTRADA.";
 
                     tv.setText(mensagem);
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle(titulo);
-                    builder.setView(view1);
                     alerta = builder.create();
+
                     alerta.show();
 
                     view1.findViewById(R.id.mensagem_retornar).setOnClickListener(new View.OnClickListener() {
@@ -126,8 +127,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             alerta.dismiss();
                         }
                     });
-                }
 
+
+                } else {
+
+                    CalcularEstaqueamentoAuxiliar auxiliar = new CalcularEstaqueamentoAuxiliar();
+
+                    auxiliar.checarValidade();
+
+                    if (auxiliar.isTesteValidade()) {
+
+                        Intent intentCalcularEstaqueamento = new Intent(MainActivity.this, CalcularEstaqueamentoActivity.class);
+                        startActivity(intentCalcularEstaqueamento);
+
+                    } else {
+
+                        titulo = auxiliar.getTitulo();
+                        mensagem = auxiliar.getMensagem();
+
+                        tv.setText(mensagem);
+                        builder.setTitle(titulo);
+                        alerta = builder.create();
+
+                        alerta.show();
+
+                        view1.findViewById(R.id.mensagem_retornar).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                alerta.dismiss();
+                            }
+                        });
+
+                    }
+                }
 
                 break;
         }

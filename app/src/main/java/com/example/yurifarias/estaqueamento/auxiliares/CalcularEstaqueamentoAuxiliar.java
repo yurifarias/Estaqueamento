@@ -54,6 +54,8 @@ public class CalcularEstaqueamentoAuxiliar {
     private String titulo;
     private String mensagem;
 
+    private double alturaTetraedro;
+
     public CalcularEstaqueamentoAuxiliar() {
 
         matrizRigidezEstacas = montarMatrizRigidezEstacas();
@@ -63,35 +65,11 @@ public class CalcularEstaqueamentoAuxiliar {
         casoSimetria = definirCaso();
     }
 
-    public boolean tentarCalcular() {
-
-        if (String.valueOf(MainActivity.diametroEstacas).equals("0.0") || String.valueOf(MainActivity.diametroEstacas).equals("null")
-                || String.valueOf(MainActivity.comprimentoEstacas).equals("0.0") || String.valueOf(MainActivity.comprimentoEstacas).equals("null")
-                || String.valueOf(MainActivity.itemFckConcreto).equals("0") || String.valueOf(MainActivity.itemFckConcreto).equals("null")
-                || String.valueOf(MainActivity.esforcoFx).equals("null") || String.valueOf(MainActivity.esforcoFy).equals("null")
-                || String.valueOf(MainActivity.esforcoFz).equals("null") || String.valueOf(MainActivity.esforcoFa).equals("null")
-                || String.valueOf(MainActivity.esforcoFb).equals("null") || String.valueOf(MainActivity.esforcoFc).equals("null")
-                || String.valueOf(MainActivity.qtdEstacas).equals("0") || String.valueOf(MainActivity.qtdEstacas).equals("null")
-                || String.valueOf(MainActivity.posX).equals("0.0") || String.valueOf(MainActivity.posX).equals("null")
-                || String.valueOf(MainActivity.estaqueamento.length).equals("0") || String.valueOf(MainActivity.estaqueamento.length).equals("null")) {
-
-            titulo = "ERRO!";
-
-            mensagem = "REVEJA DADOS DE ENTRADA.";
-
-            return false;
-
-        } else
-
-            checarValidade();
-
-            return testeValidade;
-    }
-
-    private void checarValidade() {
+    public void checarValidade() {
 
         switch (getCasoSimetria()) {
 
+            // ESTACAS VERTICAIS
             case 'A':
 
                 titulo = "INSTABILIDADE!";
@@ -99,7 +77,7 @@ public class CalcularEstaqueamentoAuxiliar {
                 if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0) {
 
                     //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fz ou Fa.
-                    mensagem = "O estaqueamento não reage aos esforços Fy, Fz, Fa.\nPor favor, reconsidere estes esforços";
+                    mensagem = "O estaqueamento não reage aos esforços Fy, Fz, Fa.\nPor favor, reconsidere estes esforços.";
 
                     testeValidade = false;
 
@@ -132,7 +110,7 @@ public class CalcularEstaqueamentoAuxiliar {
                         testeValidade = true;
                     }
 
-                } else if (testeEstacasVerticaisColineares()) {
+                } else if (testeEstacasVerticaisColineares() && !testePlanoXY() && !testePlanoXZ()) {
 
                     //Passar mensagem de que o estaqueamento é instável porque as estacas são colieares e não é estaqueamento plano.
                     mensagem = "Estacas verticais coplanares geram instabilidade.";
@@ -147,42 +125,508 @@ public class CalcularEstaqueamentoAuxiliar {
 
                 break;
 
+            // ESTAQUEAMENTO PLANO EM XY
             case 'B':
 
-                testeValidade = false;
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0 || MainActivity.esforcoFb != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fz, Fa ou Fb.
+                    mensagem = "O estaqueamento não reage aos esforços Fz, Fa, Fb.\nPor favor, reconsidere estes esforços.";
+
+                    testeValidade = false;
+
+                } else if (MainActivity.estaqueamento.length == 2) {
+
+                    if (!testeSimetriaXZ3()) {
+
+                        //Passar mensagem de que duas estacas não simétricas são instáveis.
+                        mensagem = "Estaqueamento com duas estacas não simétricas é instável.";
+
+                        testeValidade = false;
+
+                    } else if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFc != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fy ou Fc.
+                        mensagem = "Esforço Fy ou Fc neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar cálculo.
+                        testeValidade = true;
+                    }
+
+                } else if (MainActivity.estaqueamento.length == 3) {
+
+                    if (testeSimetriaXZ3() && (MainActivity.esforcoFy != 0 || MainActivity.esforcoFc != 0)) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fy ou Fc.
+                        mensagem = "Esforço Fy ou Fc neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else
+
+                        //Realizar cálculo.
+                        testeValidade = true;
+
+                } else {
+
+                    //Realizar cálculo.
+                    testeValidade = true;
+
+                }
 
             break;
 
+            // ESTAQUEAMENTO PLANO EM XZ
             case 'C':
 
-                testeValidade = false;
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFa != 0 || MainActivity.esforcoFc != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fa ou Fc.
+                    mensagem = "O estaqueamento não reage aos esforços Fy, Fa, Fc.\nPor favor, reconsidere estes esforços.";
+
+                    testeValidade = false;
+
+                } else if (MainActivity.estaqueamento.length == 2) {
+
+                    if (!testeSimetriaXY3()) {
+
+                        //Passar mensagem de que duas estacas não simétricas são instáveis.
+                        mensagem = "Estaqueamento com duas estacas não simétricas é instável.";
+
+                        testeValidade = false;
+
+                    } else if (MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fz ou Fb.
+                        mensagem = "Esforço Fz ou Fb neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar cálculo.
+                        testeValidade = true;
+                    }
+
+                } else if (MainActivity.estaqueamento.length == 3) {
+
+                    if (testeSimetriaXY3() && (MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0)) {
+
+                        //Passar mensagem de instabilidade por causa do esforço Fy ou Fc.
+                        mensagem = "Esforço Fz ou Fb neste estaqueamento gera instabilidade.";
+
+                        testeValidade = false;
+
+                    } else
+
+                        //Realizar cálculo.
+                        testeValidade = true;
+
+                } else {
+
+                    //Realizar cálculo.
+                    testeValidade = true;
+
+                }
 
             break;
 
+            // SIMETRIA POR XY
             case 'D':
 
-                testeValidade = false;
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFz != 0 || MainActivity.esforcoFa != 0 || MainActivity.esforcoFb != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fz, Fa ou Fb.
+                    mensagem = "Os esforços Fz, Fa, Fb geram instabilidade.\nPor favor, reconsidere estes esforços.";
+
+                    testeValidade = false;
+
+                } else if(MainActivity.estaqueamento.length == 3) {
+
+                    if (testeTetraedroEquilateroSimetria()) {
+
+                        if (MainActivity.esforcoFc != 0) {
+
+                            mensagem = "Esforço Fc causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+
+                    } else if (testeTrianguloEquilateroSimetria()) {
+
+                        if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFc != 0) {
+
+                            mensagem = "Esforço Fy ou Fc causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+                    }
+
+                } else if (MainActivity.estaqueamento.length == 4) {
+
+                    if (testeDoisParesSimetricos() && (MainActivity.esforcoFy != 0 || MainActivity.esforcoFc != 0)) {
+
+                        mensagem = "Esforço Fy ou Fc causa instabilidade neste estaqueamento";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar cálculo
+
+                        testeValidade = true;
+                    }
+
+                } else {
+
+                    //Realizar cálculo
+
+                    testeValidade = true;
+                }
 
             break;
 
+            // SIMETRIA POR XZ
             case 'E':
 
-                testeValidade = false;
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFa != 0 || MainActivity.esforcoFc != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fa ou Fb.
+                    mensagem = "Os esforços Fy, Fa, Fc geram instabilidade.\nPor favor, reconsidere estes esforços.";
+
+                    testeValidade = false;
+
+                } else if(MainActivity.estaqueamento.length == 3) {
+
+                    if (testeTetraedroEquilateroSimetria()) {
+
+                        if (MainActivity.esforcoFb != 0) {
+
+                            mensagem = "Esforço Fb causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+
+                    } else if (testeTrianguloEquilateroSimetria()) {
+
+                        if (MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0) {
+
+                            mensagem = "Esforço Fz ou Fb causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+                    }
+
+                } else if (MainActivity.estaqueamento.length == 4) {
+
+                    if (testeDoisParesSimetricos() && (MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0)) {
+
+                        mensagem = "Esforço Fz ou Fb causa instabilidade neste estaqueamento";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar cálculo
+
+                        testeValidade = true;
+                    }
+
+                } else {
+
+                    //Realizar cálculo
+
+                    testeValidade = true;
+                }
 
             break;
 
+            // SIMETRIA POR DOIS PLANOS
             case 'F':
 
-                testeValidade = false;
+                if (MainActivity.estaqueamento.length < 6) {
+
+                    if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0 || MainActivity.esforcoFc != 0) {
+
+                        mensagem = "Esforço Fy, Fz, Fb ou Fc causa instabilidade neste estaqueamento";
+
+                        testeValidade = false;
+
+                    } else {
+
+                        //Realizar cálculo
+
+                        testeValidade = true;
+                    }
+
+                } else {
+
+                    if ((eEI.size() + eEII.size() + eZero.size()) == (MainActivity.estaqueamento.length - 4)) {
+
+                        if (MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0) {
+
+                            mensagem = "Esforço Fz ou Fb causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+
+                    } else if ((eEIII.size() + eEIV.size() + eZero.size()) == (MainActivity.estaqueamento.length - 4)) {
+
+                        if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFc != 0) {
+
+                            mensagem = "Esforço Fy ou Fc causa instabilidade neste estaqueamento";
+
+                            testeValidade = false;
+
+                        } else {
+
+                            //Realizar cálculo
+
+                            testeValidade = true;
+                        }
+
+                    } else {
+
+                        //Realizar cálculo
+
+                        testeValidade = true;
+
+                    }
+                }
 
             break;
 
+            // SIMETRIA POR UM EIXO
             case 'G':
 
-                testeValidade = false;
+                titulo = "INSTABILIDADE!";
+
+                if (MainActivity.esforcoFy != 0 || MainActivity.esforcoFz != 0 || MainActivity.esforcoFb != 0 || MainActivity.esforcoFc != 0) {
+
+                    //Passar mensagem de que o estaqueamento não reage a esforços Fy, Fz, Fb ou Fc.
+                    mensagem = "O estaqueamento não reage aos esforços Fy, Fz, Fb, Fc.\nPor favor, reconsidere estes esforços.";
+
+                    testeValidade = false;
+
+                } else if (MainActivity.estaqueamento.length == 2) {
+
+                    mensagem = "Apenas duas estacas não garantem estabilidade para este estaqueamento   .";
+
+                    testeValidade = false;
+
+                } else {
+
+                    testeValidade = true;
+                }
 
             break;
         }
+    }
+
+    private boolean testeEstacasVerticaisColineares() {
+
+        double[] yi = new double[MainActivity.estaqueamento.length];
+        double[] zi = new double[MainActivity.estaqueamento.length];
+        double[] inclinacao = new double[MainActivity.estaqueamento.length - 1];
+        ArrayList<String> inclinacoes = new ArrayList<>();
+
+        int i = 0;
+
+        while (i < MainActivity.estaqueamento.length) {
+
+            Estacas e = MainActivity.estaqueamento[i];
+
+            yi[i] = e.getPosY();
+            zi[i] = e.getPosZ();
+
+            i++;
+        }
+
+        int j = 0;
+
+        while (j < inclinacao.length) {
+
+            if (yi[0] - yi[j+1] == 0) {
+
+                inclinacao[j] = Math.PI / 2;
+
+            } else {
+
+                inclinacao[j] = Math.atan((zi[0] - zi[j+1]) / (yi[0] - yi[j+1]));
+            }
+
+
+            if (inclinacao[j] == inclinacao[0]) {
+
+                inclinacoes.add("Sim");
+
+            } else {
+
+                inclinacoes.add("Nao");
+            }
+
+            j++;
+        }
+
+        return !inclinacoes.contains("Nao");
+    }
+
+    private boolean testeTetraedroEquilateroSimetria() {
+
+        boolean trianguloEquilatero = testeTrianguloEquilateroSimetria();
+
+        return  (alturaTetraedro == MainActivity.posX && trianguloEquilatero);
+    }
+
+    private boolean testeTrianguloEquilateroSimetria() {
+
+        double[] yi = new double[MainActivity.estaqueamento.length];
+        double[] zi = new double[MainActivity.estaqueamento.length];
+        double[] ai = new double[MainActivity.estaqueamento.length];
+        double[] wi = new double[MainActivity.estaqueamento.length];
+        double[] li = new double[MainActivity.estaqueamento.length];
+
+        double somaYi = 0;
+        double somaZi = 0;
+        double somaCosWi = 0;
+        double somaSenWi = 0;
+
+        boolean teste = false;
+
+        int i = 0;
+
+        while (i < MainActivity.estaqueamento.length) {
+
+            Estacas e = MainActivity.estaqueamento[i];
+
+            yi[i] = e.getPosY();
+            zi[i] = e.getPosZ();
+            ai[i] = e.getAngCrav();
+            wi[i] = e.getAngProj();
+
+            somaYi =+ yi[i];
+            somaZi =+ zi[i];
+            somaCosWi =+ cosWi(wi[i]);
+            somaSenWi =+ senWi(wi[i]);
+
+            i++;
+        }
+
+        li[0] = Math.sqrt(Math.pow((yi[0] - yi[1]), 2) + Math.pow((zi[0] - zi[1]), 2));
+        li[1] = Math.sqrt(Math.pow((yi[1] - yi[2]), 2) + Math.pow((zi[1] - zi[2]), 2));
+        li[2] = Math.sqrt(Math.pow((yi[2] - yi[0]), 2) + Math.pow((zi[2] - zi[0]), 2));
+
+        alturaTetraedro = Math.sqrt(2 / 3) * li[0];
+
+        switch (casoSimetria) {
+
+            case 'D':
+
+                teste = (li[0] == li[1] && li[0] == li[2] && ai[0] == ai[1] && ai[0] == ai[2] && somaYi == 0 && somaZi == 0 && somaCosWi != 0);
+
+                break;
+
+            case 'E':
+
+                teste = (li[0] == li[1] && li[0] == li[2] && ai[0] == ai[1] && ai[0] == ai[2] && somaYi == 0 && somaZi == 0 && somaSenWi != 0);
+
+                break;
+        }
+
+        return teste;
+    }
+
+    private boolean testeDoisParesSimetricos() {
+
+        double[] yi = new double[MainActivity.estaqueamento.length];
+        double[] zi = new double[MainActivity.estaqueamento.length];
+        double[] ai = new double[MainActivity.estaqueamento.length];
+        double[] wi = new double[MainActivity.estaqueamento.length];
+
+        double somaYi = 0;
+        double somaZi = 0;
+        double somaCosWi = 0;
+        double somaSenWi = 0;
+
+        boolean teste = false;
+
+        int i = 0;
+
+        while (i < MainActivity.estaqueamento.length) {
+
+            Estacas e = MainActivity.estaqueamento[i];
+
+            yi[i] = e.getPosY();
+            zi[i] = e.getPosZ();
+            ai[i] = e.getAngCrav();
+            wi[i] = e.getAngProj();
+
+            somaYi =+ yi[i];
+            somaZi =+ zi[i];
+            somaCosWi =+ cosWi(wi[i]);
+            somaSenWi =+ senWi(wi[i]);
+
+            i++;
+        }
+
+        switch (casoSimetria) {
+
+            case 'D':
+
+                teste = (ai[0] == ai[1] && ai[0] == ai[2] && ai[0] == ai[3] && somaYi == 0 && somaCosWi == 0);
+
+                break;
+
+            case 'E':
+
+                teste = (ai[0] == ai[1] && ai[0] == ai[2] && ai[0] == ai[3] && somaZi == 0 && somaSenWi == 0);
+
+                break;
+        }
+
+        return teste;
     }
 
     public void calcularCaso(char caso, CalcularEstaqueamentoActivity activity) {
@@ -237,44 +681,6 @@ public class CalcularEstaqueamentoAuxiliar {
                 Toast.makeText(activity,"Não é possível achar reações.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private boolean testeEstacasVerticaisColineares() {
-
-        double[] yi = new double[MainActivity.estaqueamento.length];
-        double[] zi = new double[MainActivity.estaqueamento.length];
-        double[] inclinacao = new double[MainActivity.estaqueamento.length - 1];
-        ArrayList<String> inclinacoes = new ArrayList<>();
-
-        int i = 0;
-
-        while (i < MainActivity.estaqueamento.length) {
-
-            Estacas e = MainActivity.estaqueamento[i];
-
-            yi[i] = e.getPosY();
-            zi[i] = e.getPosZ();
-
-            i++;
-        }
-
-        int j = 0;
-
-        while (j < inclinacao.length) {
-
-            inclinacao[j] = (zi[0] - zi[i+1]) / (yi[0] - yi[i+1]);
-
-            if (inclinacao[j] == inclinacao[0]) {
-
-                inclinacoes.add("Sim");
-
-            } else {
-
-                inclinacoes.add("Nao");
-            }
-        }
-
-        return !inclinacoes.contains("Nao");
     }
 
     public void mostrarReacoesNormais(CalcularEstaqueamentoActivity activity) {
@@ -791,10 +1197,10 @@ public class CalcularEstaqueamentoAuxiliar {
             } else if (eEII.contains(estacai)) {
                 estacaSimetricaEI = (-yi) + ", " + zi + ", " + ai + ", " + (180 - wi);
 
-            } else if (eEIII.contains(estacai) && (ai == 0 || (ai != 0 && wi == 90))) {
+            } else if (eEIII.contains(estacai) && (ai == 0 || wi == 90)) {
                 estacaSimetricaEIII = estacai;
 
-            } else if (eEIV.contains(estacai) && (ai == 0 || ai != 0 && wi == 270)) {
+            } else if (eEIV.contains(estacai) && (ai == 0 || wi == 270)) {
                 estacaSimetricaEIV = estacai;
 
             }

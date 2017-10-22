@@ -28,8 +28,8 @@ public class EsforcosExternosActivity extends AppCompatActivity implements View.
         Button confirmarEsforcosExternosButton = (Button) findViewById(R.id.esforcosExternos_confirmar_button);
         confirmarEsforcosExternosButton.setOnClickListener(this);
 
-        Button cancelarEsforcosExternosButton = (Button) findViewById(R.id.esforcosExternos_cancelar_button);
-        cancelarEsforcosExternosButton.setOnClickListener(this);
+//        Button cancelarEsforcosExternosButton = (Button) findViewById(R.id.esforcosExternos_cancelar_button);
+//        cancelarEsforcosExternosButton.setOnClickListener(this);
     }
 
     public void onClick(View view) {
@@ -40,9 +40,9 @@ public class EsforcosExternosActivity extends AppCompatActivity implements View.
                 auxiliar.salvarDados(EsforcosExternosActivity.this);
                 break;
 
-            case R.id.esforcosExternos_cancelar_button:
-                auxiliar.cancelar(this);
-                break;
+//            case R.id.esforcosExternos_cancelar_button:
+//                auxiliar.cancelar(this);
+//                break;
         }
     }
 }

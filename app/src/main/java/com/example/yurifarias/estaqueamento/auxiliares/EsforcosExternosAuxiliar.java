@@ -32,37 +32,37 @@ public class EsforcosExternosAuxiliar {
     public void checarValores() {
 
         if (String.valueOf(MainActivity.esforcoFx).equals("0.0")) {
-            campoEsforcoFx.setText("0");
+            campoEsforcoFx.setText("");
         } else {
             campoEsforcoFx.setText(String.valueOf(MainActivity.esforcoFx / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFy).equals("0.0")) {
-            campoEsforcoFy.setText("0");
+            campoEsforcoFy.setText("");
         } else {
             campoEsforcoFy.setText(String.valueOf(MainActivity.esforcoFy / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFz).equals("0.0")) {
-            campoEsforcoFz.setText("0");
+            campoEsforcoFz.setText("");
         } else {
             campoEsforcoFz.setText(String.valueOf(MainActivity.esforcoFz / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFa).equals("0.0")) {
-            campoEsforcoFa.setText("0");
+            campoEsforcoFa.setText("");
         } else {
             campoEsforcoFa.setText(String.valueOf(MainActivity.esforcoFa / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFb).equals("0.0")) {
-            campoEsforcoFb.setText("0");
+            campoEsforcoFb.setText("");
         } else {
             campoEsforcoFb.setText(String.valueOf(MainActivity.esforcoFb / 1000));
         }
 
         if (String.valueOf(MainActivity.esforcoFc).equals("0.0")) {
-            campoEsforcoFc.setText("0");
+            campoEsforcoFc.setText("");
         } else {
             campoEsforcoFc.setText(String.valueOf(MainActivity.esforcoFc / 1000));
         }
@@ -120,17 +120,17 @@ public class EsforcosExternosAuxiliar {
         }
     }
 
-    public void cancelar(EsforcosExternosActivity activity) {
-
-        if (MainActivity.esforcoFx == 0 || MainActivity.esforcoFy == 0 || MainActivity.esforcoFz == 0 ||
-                MainActivity.esforcoFa == 0 || MainActivity.esforcoFb == 0 || MainActivity.esforcoFc == 0) {
-
-            Toast.makeText(activity, "NADA FOI SALVO.", Toast.LENGTH_SHORT).show();
-            activity.finish();
-        } else {
-
-            Toast.makeText(activity, "NEUNHUM ESFORÇO FOI ALTERADO.", Toast.LENGTH_SHORT).show();
-            activity.finish();
-        }
-    }
+//    public void cancelar(EsforcosExternosActivity activity) {
+//
+//        if (MainActivity.esforcoFx == 0 || MainActivity.esforcoFy == 0 || MainActivity.esforcoFz == 0 ||
+//                MainActivity.esforcoFa == 0 || MainActivity.esforcoFb == 0 || MainActivity.esforcoFc == 0) {
+//
+//            Toast.makeText(activity, "NADA FOI SALVO.", Toast.LENGTH_SHORT).show();
+//            activity.finish();
+//        } else {
+//
+//            Toast.makeText(activity, "NEUNHUM ESFORÇO FOI ALTERADO.", Toast.LENGTH_SHORT).show();
+//            activity.finish();
+//        }
+//    }
 }

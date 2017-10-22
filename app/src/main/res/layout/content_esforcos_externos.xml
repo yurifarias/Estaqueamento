@@ -1,212 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.yurifarias.estaqueamento.activities.EsforcosExternosActivity"
     tools:showIn="@layout/activity_esforcos_externos">
 
-    <RelativeLayout
+    <ScrollView
+        android:layout_above="@+id/esforcosExternos_confirmar_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/fx_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fx: " />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/fx_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
+            <LinearLayout
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/llesforcos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/fx_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fx_unit_text"
-            android:layout_toRightOf="@id/fx_text"
-            android:inputType="numberSigned|numberDecimal" />
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp" >
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/fx_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fx"
+                        android:textSize="12sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    <EditText
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/fx_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kN"
+                        android:inputType="numberSigned|numberDecimal" />
 
-        <TextView
-            android:id="@+id/fy_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fy: " />
+                    <TextView
+                        android:id="@+id/fy_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fy"
+                        android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/fy_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
+                    <EditText
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/fy_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kN"
+                        android:inputType="numberSigned|numberDecimal" />
 
-        <EditText
-            android:id="@+id/fy_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fy_unit_text"
-            android:layout_toRightOf="@id/fy_text"
-            android:inputType="numberSigned|numberDecimal" />
+                    <TextView
+                        android:id="@+id/fz_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fz"
+                        android:textSize="12sp" />
 
-    </RelativeLayout>
+                    <EditText
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/fz_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kN"
+                        android:inputType="numberSigned|numberDecimal" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/fz_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fz: " />
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp">
 
-        <TextView
-            android:id="@+id/fz_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
+                    <TextView
+                        android:id="@+id/fa_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fa"
+                        android:textSize="12sp" />
 
-        <EditText
-            android:id="@+id/fz_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fz_unit_text"
-            android:layout_toRightOf="@id/fz_text"
-            android:inputType="numberSigned|numberDecimal" />
+                    <EditText
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:id="@+id/fa_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kNm"
+                        android:inputType="numberSigned|numberDecimal" />
 
-    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fb"
+                        android:textSize="12sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                    <EditText
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/fb_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kNm"
+                        android:inputType="numberSigned|numberDecimal" />
 
-        <TextView
-            android:id="@+id/fa_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fa: " />
+                    <TextView
+                        android:id="@+id/fc_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:paddingTop="8dp"
+                        android:text="Esforço Fc"
+                        android:textSize="12sp"  />
 
-        <TextView
-            android:id="@+id/fa_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
+                    <EditText
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/fc_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="kNm"
+                        android:inputType="numberSigned|numberDecimal" />
 
-        <EditText
-            android:id="@+id/fa_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fa_unit_text"
-            android:layout_toRightOf="@id/fa_text"
-            android:inputType="numberSigned|numberDecimal" />
+                </LinearLayout>
 
-    </RelativeLayout>
+            </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <ImageView
+                android:scaleType="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/esforcos_externos"/>
 
-        <TextView
-            android:id="@+id/fb_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fb: " />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/fb_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
-
-        <EditText
-            android:id="@+id/fb_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fb_unit_text"
-            android:layout_toRightOf="@id/fb_text"
-            android:inputType="numberSigned|numberDecimal" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/fc_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Fx: " />
-
-        <TextView
-            android:id="@+id/fc_unit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kN" />
-
-        <EditText
-            android:id="@+id/fc_editText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fc_unit_text"
-            android:layout_toRightOf="@id/fc_text"
-            android:inputType="numberSigned|numberDecimal" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+    </ScrollView>
 
         <Button
-            android:id="@+id/esforcosExternos_cancelar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancelar" />
-
-        <Button
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
             android:id="@+id/esforcosExternos_confirmar_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/esforcosExternos_cancelar_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="Confirmar" />
 
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
